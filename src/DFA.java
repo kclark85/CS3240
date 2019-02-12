@@ -19,12 +19,18 @@ public class DFA{
 
     public boolean accepts(String input) {
         boolean isValid = false;
-        for (char c : input.toCharArray()) {
-            if (!Z.contains(String.valueOf(c))) {
-                isValid = false;
-            } else if (Z.contains(String.valueOf(c))) {
-                isValid = true;
-            }
+        if(F.contains(q0) && (input == null || input.length() ==0)){
+            return true;
+        }
+        State currentState = q0;
+        for(int i = 0; i < input.length(); i++){
+            //this.nextState(currentState, input.substring(i,i+1)).increment();
+            currentState = this.nextState(currentState, input.substring(i,i+1));
+            currentState.increment();
+
+        }
+        if(this.F.contains(currentState)){
+            isValid = true;
         }
         return isValid;
     }
