@@ -18,13 +18,25 @@ public class DFA{
     }
 
     public boolean accepts(String input) {
+        for (State s: Q) {
+            s.reset();
+        }
         boolean isValid = false;
-        for (char c : input.toCharArray()) {
-            if (!Z.contains(String.valueOf(c))) {
-                isValid = false;
-            } else if (Z.contains(String.valueOf(c))) {
-                isValid = true;
-            }
+        if(F.contains(q0) && (input == null || input.length() ==0)){
+            return true;
+        }
+        State currentState = q0;
+        q0.increment();
+        for(int i = 0; i < input.length(); i++){
+            currentState = this.nextState(currentState, input.substring(i,i+1));
+            if(currentState !=null )
+            currentState.increment();
+
+
+        }
+
+        if(this.F.contains(currentState)){
+            isValid = true;
         }
         return isValid;
     }
